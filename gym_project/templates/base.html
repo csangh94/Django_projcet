@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    {% block style %}{% endblock %}
+</head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script type="text/javascript">
+    $(window).scroll(function (event) {
+        if (jQuery(window).scrollTop() > jQuery(".banner").offset().top) {
+            jQuery("#chase").css("position", "fixed");
+        } else if ((jQuery(window).scrollTop() < jQuery(".banner").offset().top)) {
+            jQuery("#chase").css("position", "static");
+        }
+    });
+
+    $(function () {
+        $('#bs1').click(function () { // 칼로리 계산
+            $('#kal').empty()
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'test' %}',
+                data: {
+                    food: $('#ts1').val()
+                },
+                success: function (result) {
+                    $('#kal').append(result)
+
+
+                }
+            })
+
+        })
+
+    })
+</script>
+
+<s_sidebar_element>
+    <div class="banner">
+        <div id="chase" style="top:0px;width: 100%;z-index: 1">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="http://127.0.0.1:8000/">MEGA GYM</a>
+                <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarColor02"
+                        aria-label="Toggle navigation"
+                        type="button" data-target="#navbarColor02" data-toggle="collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="http://127.0.0.1:8000/">Home <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gm_list' %}">지점보기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'test2' %}">공공시설 찾기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'post_list' %}">공지게시판</a>
+                        </li>
+
+                    </ul>
+                    {% if  request.session.user_id %} {# 로그인 여부 확인 #}
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item"><a href="#" class="nav-link">{{ request.session.user_id }} 님 환영합니다</a>
+                            </li>
+                            <li> {# url "name명" #} {# : urls.py에서 지정한 함수의 name을 연결 #}
+                                <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{% url "update" pk=request.session.user_id %}">내 정보 관리</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav mr-auto">
+                            <li>
+                                <a class="nav-link" href="{% url 'login' %}">로그인</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'create' %}">회원가입</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <li class="form-inline my-2 my-lg-0">
+                        <table>
+                            <tr>
+                                <td><span style="color: #cccccc">칼로리 계산기</span></td>
+                                <td><input class="form-control mr-sm-2" type="text" placeholder="ex)김밥,불고기,짜장면"
+                                           id="ts1"></td>
+                                <td>
+                                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="bs1">Search
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+
+                </div>
+            </nav>
+            <div  align="right" >
+<table  style="background:#33383b;border-radius: 10px;color: #cccccc">
+        <tr><td colspan="2"><a href="{% url 'session_in' %}"> 음식 검색 순위 보기</a></td>
+            <td><td align="right"><a href="{% url 'session_end' %}">X</a></td></td>
+        </tr>
+    {% for x in request.session.rank %}
+        <tr><td>{{ forloop.counter }}순위</td>
+        <td>{{ x.name }}</td>
+        <td>{{ x.count }}회</td></tr>
+{% endfor %}
+    </table>
+<table  style="background:#33383b;border-radius: 10px;color: #cccccc">
+    <tr></tr>
+        <tr>
+           <td id="kal" >
+               {% for x in request.session.kal %}
+                   {{ x }}<br>
+               {% endfor %}
+           </td>
+        </tr>
+
+    </table>
+</div>
+        </div>
+    </div>
+</s_sidebar_element>
+<br>
+<br>
+<br>
+{% block container %}
+    <!-- 템플릿 상속 -->
+{% endblock %}
+
+{% block content %}
+    <!-- 템플릿 상속 -->
+{% endblock %}
+<br>
+<hr>
+<br>
+<center>
+    주식회사 메가 짐 <br>
+    대표자 : 황신 | 주소 : 서울특별시 마포구 신촌로 94, 708호<br>
+    ⓒMEGA GYM Corp.
+</center>

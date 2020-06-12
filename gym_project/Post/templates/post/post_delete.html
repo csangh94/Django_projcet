@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} 삭제 확인 페이지!! {% endblock %}
+
+{% block content %}
+    <form  action="" method="post">
+        <h3 align="center">게시물 삭제</h3>
+        <hr color="blue">
+        {%csrf_token %}<!-- "해킹방지 기능" 여기서 입력한 값을 암호화된 방식으로 뷰로 넘어가도록함-->
+        <!--{{form.as_p}}-->
+        {% comment %}{{form.as_table}}{% endcomment %}
+        {{ form.as_ul }}
+        <input  type="submit" value="delete">
+    </form>
+{% endblock %}

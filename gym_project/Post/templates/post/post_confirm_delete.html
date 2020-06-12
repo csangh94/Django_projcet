@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}삭제 확인 페이지!!{% endblock %}
+
+{% block content %}
+    <form action="" method="post" align="center">
+        <h3 align="center">삭제할 내용 확인</h3>
+        <hr>
+        {%csrf_token %}<!-- "해킹방지 기능" 여기서 입력한 값을 암호화된 방식으로 뷰로 넘어가도록함-->
+        <!--{{form.as_p}}-->
+        <!--{{form.as_table}}-->
+        {{ object }}
+        <!--셀렉한 값을 가져온다 1개 검색시 조건 오브젝-->
+        <div align="center"><br>
+            <input class="btn btn-danger" type="submit" value="delete?">
+        </div>
+    </form>
+{% endblock %}

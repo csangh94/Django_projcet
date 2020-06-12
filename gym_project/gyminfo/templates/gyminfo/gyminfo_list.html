@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block title %}등록 업체 리스트{% endblock %}
+
+{% block content %}
+    <br><br>
+<h1 align="center">등록한 Gym list</h1>
+<br>
+<br>
+<a href="{% url 'gm_insert'%}"><input type="button" value="업체 등록"></a>
+<hr>
+<table align="center">
+    <tr>
+        <td width="60">#</td>
+        <td width="500">업체이름</td>
+        <td width="500">업체 사진</td>
+        <td width="400">소개 글</td>
+        <td>수정/삭제</td>
+    </tr>
+</table>
+<hr>
+{% for gym in list %}
+    <table>
+    <tr>
+        <td width="60">{{ forloop.counter }}</td>
+        <td width="500">{{ gym.gym_title }}</td>
+        <td width="500"><a href="/gym/gymdetail/{{gym.id}}"><img src="{{gym.photo.url}}" width="400" height="400"></a></td>
+        <td width="400"><a href="{{ gym.home_page }}" target="_blank">홈페이지</a><br>휴무 {{ gym.open_time|linebreaksbr }}<br>
+            {{ gym.phone }}<br>
+            {{ gym.text |linebreaksbr}}</td>
+        <td>
+            <a href="{% url 'gm_update' pk=gym.id%}"><input type="button" value="수정"></a>
+            <a href="{% url 'gm_delete' pk=gym.id%}"><input type="button" value="삭제"></a>
+
+        </td>
+    </tr>
+    </table>
+    <hr>
+{% endfor%}
+{% endblock %}

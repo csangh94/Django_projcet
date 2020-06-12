@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% block content %}
+<form action="" method="post">
+    <h3 align="center">정말 탈퇴 하시겠습니까???????????</h3>
+    <br>
+    <br>
+
+    {% csrf_token %}
+    <table align="center">
+        <tr>
+            <td>
+                {{object}}
+            </td>
+            <td>
+                <input type="submit" value="탈퇴탈퇴">
+            </td>
+        </tr>
+    </table>
+
+
+</form>
+{% endblock %}

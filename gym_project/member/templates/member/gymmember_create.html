@@ -1,0 +1,99 @@
+{% extends 'base.html'%}
+
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#pw1').keyup(function () {
+                var pwd1 = $('#user_pw').val();
+                var pwd2 = $('#pw1').val();
+                if (pwd1 != pwd2) {
+                    $('#confirm2').text('비밀번호가 일치하지 않습니다.');
+                } else {
+                    $('#confirm2').text('비밀번호가 일치합니다.');
+                }
+            })
+            $('#pw').keyup(function () {
+                var pwcount1 = $('#user_pw').val();
+                var pwcount2 = $('#pw1').val();
+                if (pwcount1.length < 4) {
+                    $('#confirm1').text('비밀번호 4~8글자');
+                } else if (pwcount1.length > 8) {
+                    $('#confirm1').text('비밀번호가 8글자를 초과');
+                } else {
+                    $('#confirm1').text('사용가능한 비밀번호');
+                }
+
+            })
+            $('#name').keyup(function () {
+                $("#confirm1").remove();
+                $("#confirm2").remove();
+
+            })
+        })
+
+    </script>
+<form action="{%  url 'create2' %}" method="post" align="center">
+
+    <h3 align="center">MEGA GYM 멤버 회원가입</h3>
+    <br>
+
+    {%csrf_token %}
+    <table align="center">
+        <tr>
+            <td> <span class="np">아이디</span> </td>
+            <td> <input name="user_id" id="user_id" type="text" class="np"> </td>
+            <td> <input id="btn-id" type="button" value="중복체크" class="np"> </td>
+        </tr>
+        <tr>
+            <td> <span class="np"> 패스워드</span> </td>
+            <td>
+                <input name="user_pw" id="user_pw" type="password" class="np"><br>
+            </td>
+            <td>
+                <div style=" color: #ff0000;" id="confirm1" class="np"></div>
+            </td>
+        </tr>
+        <tr>
+            <td> <span class="np">패스워드확인</span> </td>
+            <td>
+                <input name="pw1" id="pw1" type="password" class="np"><br>
+            </td>
+            <td>
+                <div style=" color: #ff0000;" id="confirm2" class="np"></div>
+            </td>
+        </tr>
+        <tr>
+            <td> <span class="np">이름</span> </td>
+            <td> <input name="user_name" id="user_name" type="text" class="np"></td>
+        </tr>
+        <tr>
+            <td> <span class="np">연락처</span> </td>
+            <td> <input name="user_tel" id="user_tel" type="text" class="np"> </td>
+        </tr>
+        <tr>
+            <td> <span class="np">회원권</span> </td>
+            <td> <input name="membership" id="membership" type="text" class="np"> </td>
+        </tr>
+        <tr>
+            <td>  </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button class="btn btn-primary" type="submit" id="submit">가입하기</button></td>
+        </tr>
+        </table>
+
+
+</form>
+{% endblock %}
+

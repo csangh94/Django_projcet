@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% block title %}삭제 내용 확인{% endblock %}
+
+{% block content %}
+    <br><br>
+<h1 align="center">삭제 내용 확인</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <table border="1" align="center">
+    <tr>
+        <td colspan="2">업체 이름 : {{ gyminfo.gym_title }}</td>
+        <td>관리자 : {{ gyminfo.author }} </td>
+    </tr>
+    <tr>
+        <td colspan="3" width="800" height="500" align="center"><img src="{{ gyminfo.photo.url }}" width="800" height="500"></td>
+    </tr>
+    <tr>
+        <td colspan="2"> 소개 글 <br>
+            {{ gyminfo.text |linebreaksbr}}
+        </td>
+        <td> <input type="submit" value="삭제"></td>
+    </tr>
+
+</table>
+
+</form>
+{% endblock %}

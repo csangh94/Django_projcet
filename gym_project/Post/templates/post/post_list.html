@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}게시물 목록 확인 페이지!!{% endblock %}
+{% block style %}
+    <style>
+        h3 {
+            background: red;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+<hr color="red">
+<!-- 템플릿 언어(template language) -->
+<ul>
+    <hr color="green">
+</ul>
+<hr color="blue">
+{% block content %}
+    <body>
+    {% comment %}사이트 소개 부분{% endcomment %}
+    <h2 align="center">공지 게시판</h2>
+    <span>
+    </span>
+    <table class="table table-hover">
+        <p>
+            <thead>
+            <tr>
+                <th scope="row"></th>
+                <th scope="col">번호</th>
+                <th scope="col">id</th>
+                <th scope="col">title</th>
+                <th scope="col">date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr class="table-light">
+                <th scope="row"></th>
+                <td>{{ forloop.revcounter }}</td>
+                <td>{{ post.user_id_id }}</td>
+                <td>
+                    <a href="{{ post.get_absolute_url }}"> {{ post.title }}</a>
+                </td>
+                <td>{{ post.mod_date|date:"N d D Y" }}</td>
+            {% endfor %}
+            </tr>
+            </tbody>
+        </p>
+    </table>
+    <div align="center">
+        <a href="{% url 'post_create' %}" class='btn btn-info' >게시물 작성</a>
+    </div>
+    <br>
+    <div align="center">
+        {% if page_obj.has_previous %}
+            {% comment %} has_previous() 이전 페이지의 유무를 boolean 으로변환  {% endcomment %}
+            <a href="?page={{ page_obj.previous_page_number }}">이전페이지</a>
+            {% comment %} previous_page_number() 이전페이지 번호 호환 {% endcomment %}
+        {% endif %}
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}
+            {% comment %} has_next() 다음페이지의 유무를 boolean으로 변환 {% endcomment %}
+            <a href="?page={{ page_obj.next_page_number }}">다음페이지</a>
+        {% endif %}
+    </div>
+    </body>
+
+
+{% endblock %}
+
+{% block pagination %}
+    {% if is_paginated %}
+        <ul class="pagination justify-content-center pagination-sm">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for object in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == forloop.counter %}disabled{% endif %}">
+                    <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+                </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'list' %}?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+

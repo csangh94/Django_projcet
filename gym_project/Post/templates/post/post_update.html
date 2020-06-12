@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} 삭제 확인 페이지!! {% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        <h3 align="center">게시물 수정</h3>
+
+        <hr color="blue">
+
+        {%csrf_token %}<!-- "해킹방지 기능" 여기서 입력한 값을 암호화된 방식으로 뷰로 넘어가도록함-->
+        <!--{{form.as_p}}-->
+        <!--{{form.as_table}}-->
+
+        <table border="1" align="center">
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2"><input class="btn btn-primary" type="submit" value="update"></td>
+            </tr>
+        </table>
+
+    </form>
+{% endblock %}

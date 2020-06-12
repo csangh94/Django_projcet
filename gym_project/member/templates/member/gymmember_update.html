@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+{% block title %}멤버 정보 업데이트{% endblock %}
+<style>
+    ul {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+{% block content %}
+<form action="" method="post" align="center">
+    <h3 align="center">GYM 멤버 정보 업데이트</h3>
+    {%csrf_token %}
+
+    {{form.as_ul}}
+    <input type="submit" value="update">
+    <a href="{% url 'delete' pk=object.user_id %}" >멤버 탈퇴</a>
+</form>
+
+{% endblock %}

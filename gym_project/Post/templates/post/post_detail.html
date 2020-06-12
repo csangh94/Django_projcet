@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} 작성글 상세페이지 {% endblock %}
+{% block content %}
+    <body>
+    <center>
+        <p>
+
+            {% comment %}{% if object.get_previous %}
+                <a href="{{ object.get_previous.get_absolute_urL }}" title="이전 글">&larr;{{ object.get_previous }}</a>
+            {% endif %}{% endcomment %}
+
+            {% if object.get_next %}
+                |
+                <a href="{{ object.get_next.get_absolute_url }}" title="다음 글"> 다음글 --> {{ object.get_next }} &rarr;</a>
+            {% endif %}
+
+            {% comment %}템플릿 태그{% endcomment %}
+        </p>
+
+        {% comment %}템플릿 필터{% endcomment %}
+
+        <div class="card border-info mb-3" style="max-width: 23rem;  ">
+            <div class="card-header">{{ post.title }}</div>
+            <div class="card-body">
+                {% comment %}<h4 class="card-title">Info card title</h4>{% endcomment %}
+                <p class="card-text"> {{ object.content|linebreaks }} </p><br><br>
+                <p>작성일 : {{ object.mod_date|date:"j F Y" }}</p>
+            </div>
+        </div>
+        <table>
+            <tr>
+                <a class="btn btn-danger" href="{% url 'post_delete' pk=post.id %}">게시글 삭제</a>
+                <a class="btn btn-primary" href="{% url 'post_update' pk=post.id %}">게시글 수정</a>
+                <a class="btn btn-success" href="{% url 'post_list' %}">글 목록으로 </a>
+            </tr>
+        </table>
+    </center>
+    </body>
+{% endblock %}
